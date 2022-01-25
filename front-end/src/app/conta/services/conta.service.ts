@@ -9,7 +9,7 @@ import { Usuario } from "../models/usuario";
 @Injectable()
 export class ContaService extends BaseService {
 
-    constructor(private http: HttpClient) { 
+    constructor(private http: HttpClient) {
         super();
     }
 
@@ -24,7 +24,14 @@ export class ContaService extends BaseService {
         return response;
     }
 
-    login(usuario: Usuario) {
+    login(usuario: Usuario): Observable<Usuario> {
+        let response = this.http
+            .post(this.UrlServiceV1 + 'entrar', usuario, this.ObterHeaderJson())
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError)
+            );
 
+        return response;
     }
 }

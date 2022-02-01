@@ -1,6 +1,6 @@
 export class LocalStorageUtils {
     
-    public obterUsuario() {
+    public obterUsuario(): any {
         
         var item = localStorage.getItem('devio.user');
         var result = '';

@@ -1,23 +1,45 @@
-import { CommonModule } from "@angular/common";
-import { NgModule } from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { FornecedorAppComponent } from "./fornecedor.app.component";
-import { FornecedorRoutingModule } from "./fornecedor.route";
-import { ListaComponent } from "./lista/lista.component";
-import { FornecedorService } from "./services/fornecedor.service";
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { NovoComponent } from './novo/novo.component';
+import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
+import { FornecedorRoutingModule } from './fornecedor.route';
+import { FornecedorAppComponent } from './fornecedor.app.component';
+import { ListaComponent } from './lista/lista.component';
+import { FornecedorService } from './services/fornecedor.service';
+
+import { NgBrazil } from 'ng-brazil';
+import { TextMaskModule } from 'angular2-text-mask';
+import { NgxSpinnerModule } from "ngx-spinner";
+
+import { FornecedorResolve } from './services/fornecedor.resolve';
+import { FornececedorGuard } from './services/fornecedor.guard';
+import { DetalhesComponent } from './detalhes/detalhes.component';
+import { ExcluirComponent } from './excluir/excluir.component';
+import { EditarComponent } from './editar/editar.component';
+
 
 @NgModule({
     declarations: [
       FornecedorAppComponent,
-      ListaComponent
+      NovoComponent,
+      ListaComponent,
+      EditarComponent,
+      ExcluirComponent,
+      DetalhesComponent
     ],
     imports: [
       CommonModule,
       FornecedorRoutingModule,
-      FormsModule
+      FormsModule,
+      ReactiveFormsModule,
+      NgBrazil,
+      TextMaskModule,
+      NgxSpinnerModule
     ],
     providers: [
-      FornecedorService
+      FornecedorService,
+      FornecedorResolve,
+      FornececedorGuard
     ]
   })
   export class FornecedorModule { }

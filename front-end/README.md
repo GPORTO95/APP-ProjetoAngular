@@ -29,3 +29,6 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## Packages 
 
 Bootstrap - npm install --save @ng-bootstrap/ng-bootstrap [Link](https://ng-bootstrap.github.io/#/getting-started)
+Ng-Brazil - npm install --save ng-brazil js-brasil
+Ngx-Spinner - npm install ngx-spinner --save
+Angular2 Text - npm i angular2-text-mask --save

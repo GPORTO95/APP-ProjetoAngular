@@ -62,6 +62,6 @@ export class FornecedorService extends BaseService {
     consultarCep(cep: string): Observable<CepConsulta> {
         return this.http
             .get<CepConsulta>(`https://viacep.com.br/ws/${cep}/json/`)
-            .pipe(catchError(super.serviceError))
+            .pipe(catchError(super.serviceError));
     }
 }

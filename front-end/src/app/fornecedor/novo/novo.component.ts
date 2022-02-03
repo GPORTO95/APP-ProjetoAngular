@@ -20,6 +20,8 @@ export class NovoComponent extends FormBaseComponent implements OnInit {
 
   @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
 
+  readonly PESSOA_FISICA: string = '1';
+
   errors: any[] = [];
   fornecedorForm: FormGroup;
   fornecedor: Fornecedor = new Fornecedor();
@@ -88,7 +90,7 @@ export class NovoComponent extends FormBaseComponent implements OnInit {
       })
     });
 
-    this.fornecedorForm.patchValue({ tipoFornecedor: '1', ativo: true });
+    this.fornecedorForm.patchValue({ tipoFornecedor: this.PESSOA_FISICA, ativo: true });
   }
 
   ngAfterViewInit(): void {
@@ -104,7 +106,7 @@ export class NovoComponent extends FormBaseComponent implements OnInit {
   }
 
   trocarValidacaoDocumento() {
-    if (this.tipoFornecedorForm().value === "1") {
+    if (this.tipoFornecedorForm().value === this.PESSOA_FISICA) {
       this.documento().clearValidators();
       this.documento().setValidators([Validators.required, NgBrazilValidators.cpf]);
       this.textoDocumento = "CPF (requerido)";

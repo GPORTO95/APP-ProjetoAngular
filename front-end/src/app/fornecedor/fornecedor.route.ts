@@ -20,11 +20,13 @@ const fornecedorRouterConfig: Routes = [
     {
         path: 'adicionar-novo', component: NovoComponent,
         canDeactivate: [FornececedorGuard],
-        canActivate: [FornececedorGuard]
+        canActivate: [FornececedorGuard],
+        data: [{ claim: { nome: 'Fornecedor', valor: 'Adicionar' } }]
     },
     {
         path: 'editar/:id', component: EditarComponent,
         canActivate: [FornececedorGuard],
+        data: [{ claim: { nome: 'Fornecedor', valor: 'Atualizar' } }],
         resolve: {
             fornecedor: FornecedorResolve
         }
@@ -38,6 +40,7 @@ const fornecedorRouterConfig: Routes = [
     {
         path: 'excluir/:id', component: ExcluirComponent,
         canActivate: [FornececedorGuard],
+        data: [{ claim: { nome: 'Fornecedor', valor: 'Excluir' } }],
         resolve: {
             fornecedor: FornecedorResolve
         }

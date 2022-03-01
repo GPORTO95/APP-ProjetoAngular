@@ -32,7 +32,7 @@
                     {{ produto.nomeFornecedor }}
                 </td>
                 <td>
-                    {{ produto.valor }}
+                    {{ produto.valor | currencyBrazil : 'R$' }}
                 </td>
                 <td>
                     <input [checked]="produto.ativo" type="checkbox" disabled="disabled" class="check-box">

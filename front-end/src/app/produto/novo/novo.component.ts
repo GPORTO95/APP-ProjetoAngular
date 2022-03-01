@@ -91,7 +91,6 @@ export class NovoComponent extends ProdutoBaseComponent implements OnInit {
 
     fileChangeEvent(event: any): void {
         this.imageChangedEvent = event;
-        //this.imagemNome = event.base64;
         this.imagemNome = event.currentTarget.files[0].name;
     }
 

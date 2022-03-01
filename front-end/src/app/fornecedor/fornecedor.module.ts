@@ -16,6 +16,7 @@ import { FornececedorGuard } from './services/fornecedor.guard';
 import { DetalhesComponent } from './detalhes/detalhes.component';
 import { ExcluirComponent } from './excluir/excluir.component';
 import { EditarComponent } from './editar/editar.component';
+import { ListaProdutosComponent } from './produtos/lista-produto.componen';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { EditarComponent } from './editar/editar.component';
       ListaComponent,
       EditarComponent,
       ExcluirComponent,
-      DetalhesComponent
+      DetalhesComponent,
+      ListaProdutosComponent
     ],
     imports: [
       CommonModule,

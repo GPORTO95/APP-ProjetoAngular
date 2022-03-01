@@ -1,9 +1,7 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, CanActivate, CanDeactivate, Router, RouterStateSnapshot, UrlTree } from "@angular/router";
-import { Observable } from "rxjs";
 
 import { NovoComponent } from "src/app/fornecedor/novo/novo.component";
-
 import { BaseGuard } from 'src/app/services/base.guard';
 
 @Injectable()

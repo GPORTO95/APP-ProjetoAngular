@@ -14,7 +14,7 @@ export abstract class ProdutoBaseComponent extends FormBaseComponent {
     errors: any[] = [];
     produtoForm: FormGroup;
 
-    MAKS = utilsBr.MASKS;
+    MASKS = utilsBr.MASKS;
 
     constructor () {
         super();

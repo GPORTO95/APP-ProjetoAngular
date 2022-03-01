@@ -5,10 +5,14 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { TextMaskModule } from "angular2-text-mask";
 import { NgBrazil } from 'ng-brazil';
 import { NgxSpinnerModule } from "ngx-spinner";
-//import { ImageCropperModule } from 'ngx-image-cropper';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 import { ListaComponent } from "./lista/lista.component";
-import { NovoComponent } from "./novo/novo.component.spec";
+import { NovoComponent } from "./novo/novo.component";
+import { EditarComponent } from "./editar/editar.component";
+import { ExcluirComponent } from "./excluir/excluir.component";
+import { DetalhesComponent } from "./detalhes/detalhes.component";
+
 import { ProdutoAppComponent } from "./produto.app.component";
 import { ProdutoRoutingModule } from "./produto.route";
 import { ProdutoGuard } from "./services/produto.guard";
@@ -19,7 +23,10 @@ import { ProdutoService } from "./services/produto.service";
     declarations: [
         ProdutoAppComponent,
         ListaComponent,
-        NovoComponent
+        NovoComponent,
+        EditarComponent,
+        DetalhesComponent,
+        ExcluirComponent
     ],
     imports: [
         CommonModule,
@@ -28,7 +35,8 @@ import { ProdutoService } from "./services/produto.service";
         TextMaskModule,
         NgxSpinnerModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        ImageCropperModule
     ],
     providers: [
         ProdutoService,

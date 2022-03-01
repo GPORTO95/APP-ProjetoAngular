@@ -1,41 +1,43 @@
 import { Component, ElementRef, OnInit, ViewChildren } from "@angular/core";
 import { FormBuilder, FormControlName, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 import { ToastrService } from "ngx-toastr";
-import { ImageCroppedEvent, ImageTransform, Dimensions } from 'ngx-image-cropper';
 
+import { environment } from "src/environments/environment";
 import { ProdutoBaseComponent } from "../produto-form.base.component";
 import { ProdutoService } from "../services/produto.service";
 import { CurrencyUtils } from 'src/app/utils/currency-utils';
 
 @Component({
-    selector: 'app-novo',
-    templateUrl: './novo.component.html'
+    selector: 'app-editar',
+    templateUrl: './editar.component.html'
 })
-export class NovoComponent extends ProdutoBaseComponent implements OnInit {
+export class EditarComponent extends ProdutoBaseComponent implements OnInit {
+
+    imagens: string = environment.imagensUrl;
 
     @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
 
-    imageChangedEvent: any = '';
-    croppedImage: any = '';
-    canvasRotation = 0;
-    rotation = 0;
-    scale = 1;
-    showCropper = false;
-    containWithinAspectRatio = false;
-    transform: ImageTransform = {};
-    imageURL: string;
+    imageBase64: any;
+    imagemPreview: any;
     imagemNome: string;
+    imagemOriginalSrc: string;
 
     constructor(
         private fb: FormBuilder,
         private produtoService: ProdutoService,
         private router: Router,
+        private route: ActivatedRoute,
         private toastr: ToastrService
-    ) { super(); }
+    ) {
+
+        super();
+        this.produto = this.route.snapshot.data['produto'];
+    }
 
     ngOnInit(): void {
+
         this.produtoService.obterFornecedores()
             .subscribe(
                 fornecedores => this.fornecedores = fornecedores);
@@ -44,28 +46,43 @@ export class NovoComponent extends ProdutoBaseComponent implements OnInit {
             fornecedorId: ['', [Validators.required]],
             nome: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(200)]],
             descricao: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(1000)]],
-            imagem: ['', [Validators.required]],
+            imagem: [''],
             valor: ['', [Validators.required]],
-            ativo: [true]
+            ativo: [0]
         });
+
+        this.produtoForm.patchValue({
+            fornecedorId: this.produto.fornecedorId,
+            id: this.produto.id,
+            nome: this.produto.nome,
+            descricao: this.produto.descricao,
+            ativo: this.produto.ativo,
+            valor: CurrencyUtils.DecimalParaString(this.produto.valor)
+        });
+
+        // utilizar o [src] na imagem para evitar que se perca após post
+        this.imagemOriginalSrc = this.imagens + this.produto.imagem;
     }
 
     ngAfterViewInit(): void {
         super.configurarValidacaoFormulario(this.formInputElements);
     }
 
-    adicionarProduto() {
+    editarProduto() {
         if (this.produtoForm.dirty && this.produtoForm.valid) {
             this.produto = Object.assign({}, this.produto, this.produtoForm.value);
 
-            this.produto.imagemUpload = this.croppedImage.split(',')[1];
-            this.produto.imagem = this.imagemNome;
+            if (this.imageBase64) {
+                this.produto.imagemUpload = this.imageBase64;
+                this.produto.imagem = this.imagemNome;
+            }
+
             this.produto.valor = CurrencyUtils.StringParaDecimal(this.produto.valor);
 
-            this.produtoService.novoProduto(this.produto)
+            this.produtoService.atualizarProduto(this.produto)
                 .subscribe(
-                    sucesso => this.processarSucesso(sucesso),
-                    falha => this.processarFalha(falha)
+                    sucesso => { this.processarSucesso(sucesso) },
+                    falha => { this.processarFalha(falha) }
                 );
 
             this.mudancasNaoSalvas = false;
@@ -76,11 +93,11 @@ export class NovoComponent extends ProdutoBaseComponent implements OnInit {
         this.produtoForm.reset();
         this.errors = [];
 
-        let toast = this.toastr.success('Produto cadastrado com sucesso!', 'Sucesso!');
+        let toast = this.toastr.success('Produto editado com sucesso!', 'Sucesso!');
         if (toast) {
             toast.onHidden.subscribe(() => {
                 this.router.navigate(['/produtos/listar-todos']);
-            })
+            });
         }
     }
 
@@ -89,25 +106,17 @@ export class NovoComponent extends ProdutoBaseComponent implements OnInit {
         this.toastr.error('Ocorreu um erro!', 'Opa :(');
     }
 
-    fileChangeEvent(event: any): void {
-        this.imageChangedEvent = event;
-        //this.imagemNome = event.base64;
-        this.imagemNome = event.currentTarget.files[0].name;
+    upload(file: any) {
+        this.imagemNome = file[0].name;
+
+        var reader = new FileReader();
+        reader.onload = this.manipularReader.bind(this)
+        reader.readAsBinaryString(file[0]);
     }
 
-    imageCropped(event: ImageCroppedEvent) {
-        this.croppedImage = event.base64;
-    }
-
-    imageLoaded() {
-        this.showCropper = true;
-    }
-
-    cropperReady(sourceImageDimensions: Dimensions) {
-        console.log('Cropper ready', sourceImageDimensions);
-    }
-
-    loadImageFailed() {
-        this.errors.push('O formato do arquivo ' + this.imagemNome + ' não é aceito.');
+    manipularReader(readerEvt: any) {
+        var binaryStrig = readerEvt.target.result;
+        this.imageBase64 = btoa(binaryStrig);
+        this.imagemPreview = "data:image/jpeg;base64," + this.imageBase64;
     }
 }

@@ -5,13 +5,14 @@ export abstract class BaseGuard {
 
     private localStorageUtils = new LocalStorageUtils();
 
-    constructor(protected router: Router){}
-    
-    protected validarClaims(routeAc: ActivatedRouteSnapshot) : boolean {
+    constructor(protected router: Router) { }
 
-        if(!this.localStorageUtils.obterTokenUsuario()){
-            this.router.navigate(['/conta/login/'], { queryParams: { returnUrl: this.router.url }});
-        }  
+    protected validarClaims(routeAc: ActivatedRouteSnapshot): boolean {
+
+        if (!this.localStorageUtils.obterTokenUsuario()) {
+            this.router.navigate(['/conta/login'], { queryParams: { returnUrl: this.router.url } });
+            return false;
+        }
 
         let user = this.localStorageUtils.obterUsuario();
 
@@ -23,13 +24,13 @@ export abstract class BaseGuard {
                 if (!user.claims) {
                     this.navegarAcessoNegado();
                 }
-                
+
                 let userClaims = user.claims.find((element: any) => element.type === claim.nome);
-                
-                if(!userClaims){
+
+                if (!userClaims) {
                     this.navegarAcessoNegado();
                 }
-                
+
                 let valoresClaim = userClaims.value as string;
 
                 if (!valoresClaim.includes(claim.valor)) {
@@ -38,10 +39,10 @@ export abstract class BaseGuard {
             }
         }
 
-        return true;  
+        return true;
     }
 
     private navegarAcessoNegado() {
         this.router.navigate(['/acesso-negado']);
-    }    
+    }
 }

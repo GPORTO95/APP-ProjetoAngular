@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, Router, CanDeactivate } from '@angular/router';
+
 import { NovoComponent } from '../novo/novo.component';
 import { BaseGuard } from 'src/app/services/base.guard';
 
@@ -12,7 +13,7 @@ export class FornececedorGuard extends BaseGuard implements CanActivate, CanDeac
         if(component.mudancasNaoSalvas) {
             return window.confirm('Tem certeza que deseja abandonar o preenchimento do formulario?');
         }        
-        return true
+        return true;
     }
 
     canActivate(routeAc: ActivatedRouteSnapshot) {

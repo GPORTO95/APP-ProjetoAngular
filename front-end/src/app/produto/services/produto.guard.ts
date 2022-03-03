@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { ActivatedRouteSnapshot, CanActivate, CanDeactivate, Router, RouterStateSnapshot, UrlTree } from "@angular/router";
+import { ActivatedRouteSnapshot, CanActivate, CanDeactivate, Router } from "@angular/router";
 
 import { NovoComponent } from "src/app/fornecedor/novo/novo.component";
 import { BaseGuard } from 'src/app/services/base.guard';
@@ -17,6 +17,6 @@ export class ProdutoGuard extends BaseGuard implements CanActivate, CanDeactivat
     }
     
     canActivate(routeAc: ActivatedRouteSnapshot) {
-        return super.validarClaims(routeAc)
+        return super.validarClaims(routeAc);
     }
 }

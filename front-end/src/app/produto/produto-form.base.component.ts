@@ -1,11 +1,10 @@
 import { FormGroup } from "@angular/forms";
-
-import { Produto, Fornecedor } from "./models/produto"
+import { ElementRef } from "@angular/core";
 
 import { utilsBr } from "js-brasil";
 
-import { FormBaseComponent } from "../base-components/form-base.component"
-import { ElementRef } from "@angular/core";
+import { FormBaseComponent } from "../base-components/form-base.component";
+import { Produto, Fornecedor } from "./models/produto";
 
 export abstract class ProdutoBaseComponent extends FormBaseComponent {
 
